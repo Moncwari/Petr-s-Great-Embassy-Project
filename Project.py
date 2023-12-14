@@ -4,12 +4,13 @@ import time
 import tkinter as tk
 from tkinter.ttk import Radiobutton
 from tkinter import ttk
-import sys
 # Заимствований кода из учебников или других проектов не было
 
 root = Tk()
 root.geometry("1920x1080")
 
+global question_index
+question_index = 0
 
 frame_0 = Frame(root, height=1920, width=1080)
 frame_0.place(x=0, y=0)
@@ -23,23 +24,34 @@ canvas.create_text(
     text="Великое посольство Петра I",
     fill="#e5404b",
     font=(
-        "Helvetica",
+        "Times new Roman",
          40))
-Button(frame_0, text="К карте", font=("Helvetica", 20), bg="white", bd=0,
+Button(frame_0, text="К карте", font=("Times new Roman", 20), bg="white", bd=0,
        activebackground="white", borderwidth=1.5, relief="solid",
        command=lambda: frame_1.tkraise()).place(x=1200, y=700)
-Button(frame_0, text="К вопросам", font=("Helvetica", 20), bg="white", bd=0,
-       activebackground="white", borderwidth=1.5, relief="solid",
-       command=lambda: frame_2.tkraise()).place(x=200, y=700)
+Button(
+    frame_0,
+    text="К вопросам",
+    font=(
+        "Times new Roman",
+        20),
+    bg="white",
+    bd=0,
+    activebackground="white",
+    borderwidth=1.5,
+    relief="solid",
+    command=lambda: frame_2.tkraise()).place(
+    x=200,
+    y=700)
 
 
 frame_1 = Frame(root, height=1920, width=1080)
 frame_1.place(x=0, y=0)
 canvas = Canvas(frame_1, width=1920, height=1080)
 python_image_1 = PhotoImage(file="Karta_pustaya.png")
-Button(frame_1, text="На главную", font=("Helvetica", 13),
+Button(frame_1, text="На главную", font=("Times new Roman", 13),
        command=lambda: frame_0.tkraise()).place(x=80, y=730)
-Button(frame_1, text="К вопросам", font=("Helvetica", 13),
+Button(frame_1, text="К вопросам", font=("Times new Roman", 13),
        command=lambda: frame_2.tkraise()).place(x=200, y=730)
 
 
@@ -89,9 +101,11 @@ def animation_bwd(coords, obj, line):
     :raises WrongCoordinatsExceptionX: Если x-координата города вылетает за пределы холста
     :raises WrongCoordinatsExceptionY: Если y-координата города вылетает за пределы холста
     """
-    if (any((coords[line][x] > 1920 or coords[line][x] < 0) for x in range(0, len(coords[line]), 2))):
+    if (any((coords[line][x] > 1920 or coords[line][x] < 0)
+            for x in range(0, len(coords[line]), 2))):
         raise WrongCoordinatsExceptionX
-    if (any((coords[line][y] > 1080 or coords[line][y] < 0) for y in range(1, len(coords[line]), 2))):
+    if (any((coords[line][y] > 1080 or coords[line][y] < 0)
+            for y in range(1, len(coords[line]), 2))):
         raise WrongCoordinatsExceptionY
     for j in range(len(coords[line]) - 2, 1, -2):
         canvas.move(obj,
@@ -125,9 +139,12 @@ def click_2(event):
         line -= 1
 
 
-class WrongCoordinatsExceptionX(Exception): ...
+class WrongCoordinatsExceptionX(Exception):
+    ...
 
-class WrongCoordinatsExceptionY(Exception): ...
+
+class WrongCoordinatsExceptionY(Exception):
+    ...
 
 
 class City:
@@ -177,7 +194,7 @@ class City:
             command=show_info,
             text=text[0],
             font=(
-                "Helvetica",
+                "Times new Roman",
                 8))
         btn.config(
             bg="white",
@@ -258,7 +275,7 @@ ball = canvas.create_oval(
     fill="#d6d00f")
 line = -1
 
-btn_fwd = Button(frame_1, text="Вперёд", font=("Helvetica", 15),
+btn_fwd = Button(frame_1, text="Вперёд", font=("Times new Roman", 15),
                  bg="#2fba2d", bd=0, activebackground="#5efc5b")
 btn_fwd.place(anchor="nw", height=30, width=100, x=1100, y=700)
 btn_fwd.bind("<Button-1>", click_1)
@@ -267,7 +284,7 @@ btn_bwd = Button(
     frame_1,
     text="Назад",
     font=(
-        "Helvetica",
+        "Times new Roman",
         15),
     bg="#cc2135",
     bd=0,
@@ -278,9 +295,9 @@ btn_bwd.bind("<Button-1>", click_2)
 
 frame_2 = Frame(root, height=1080, width=1920)
 frame_2.place(x=0, y=0)
-Button(frame_2, text="На главную", font=("Helvetica", 13),
+Button(frame_2, text="На главную", font=("Times new Roman", 13),
        command=lambda: frame_0.tkraise()).place(x=80, y=730)
-Button(frame_2, text="К карте", font=("Helvetica", 13),
+Button(frame_2, text="К карте", font=("Times new Roman", 13),
        command=lambda: frame_1.tkraise()).place(x=200, y=730)
 
 Counter = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
@@ -321,8 +338,8 @@ question12 = [
     'Кёнигсберг',
     'Портсмунд',
     'Рига',
-    'Портсмунд',
     'Кёнигсберг',
+    'Портсмунд',
     'Рава Русская']
 question13 = ['Дата приезда в Минтаву:', '8 августа 1697', '8 марта 1697',
               '8 апреля 1697', '8 июня 1697', '8 февраля 1697', -1, -2, 1, -3, -4, 1]
@@ -355,19 +372,29 @@ All_question = [
 
 
 def only_one_answer():
+    """Returns question with only one answer
+    """
     def only_one_answer_check():
+        """Returns the correctness of the response
+
+        :returns: ans
+        :rtype: int
+        """
         if answer_var.get() == All_question[question_index][-1]:
             answer = tk.Label(
                 frame_2, text='Это правильный ответ, молодец!', font=(
                     'Times new Roman', 13))
-            answer.place(x=769, y=594, width=384, height=54)
-            Counter[question_index] = 1
+            answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+            ans = 1
+            Counter[question_index] = ans
         else:
             answer = tk.Label(
                 frame_2, text='Лучше подумай ещё раз.', font=(
                     'Times new Roman', 13))
-            answer.place(x=769, y=594, width=384, height=54)
-            Counter[question_index] = 0
+            answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+            ans = 0
+            Counter[question_index] = ans
+        return ans
 
     Title = tk.Label(
         frame_2,
@@ -375,7 +402,7 @@ def only_one_answer():
         font=(
             'Times new Roman',
             15))
-    Title.place(x=481, y=216, widt=960, height=54)
+    Title.place(relx=0.25, y=216, relwidth=0.5, height=54)
 
     answer_var = tk.IntVar()
     variant1 = tk.Radiobutton(
@@ -418,33 +445,70 @@ def only_one_answer():
             13),
         variable=answer_var,
         value=All_question[question_index][10])
-    variant1.place(x=481, y=270, width=960, height=54)
-    variant2.place(x=481, y=324, width=960, height=54)
-    variant3.place(x=481, y=378, width=960, height=54)
-    variant4.place(x=481, y=432, width=960, height=54)
-    variant5.place(x=481, y=486, width=960, height=54)
+    variant1.place(relx=0.25, y=270, relwidth=0.5, height=54)
+    variant2.place(relx=0.25, y=324, relwidth=0.5, height=54)
+    variant3.place(relx=0.25, y=378, relwidth=0.5, height=54)
+    variant4.place(relx=0.25, y=432, relwidth=0.5, height=54)
+    variant5.place(relx=0.25, y=486, relwidth=0.5, height=54)
 
     get_answer = tk.Button(frame_2, text='Проверить ответ', font=(
         'Times new Roman', 13), command=only_one_answer_check)
-    get_answer.place(x=769, y=540, width=384, height=54)
+    get_answer.place(relx=0.4, y=540, relwidth=0.2, height=54)
+
+
+def only_one_answer_check(answer_var_get, question_index):
+    """Returns the correctness of the response
+
+    :param answer_var: sinonimous to answer_var.get()
+    :type answer_var: int
+    :param question_index: index of question
+    :type question_index: int
+    :returns: ans
+    :rtype: int
+    """
+    if answer_var_get == All_question[question_index][-1]:
+        answer = tk.Label(
+            frame_2, text='Это правильный ответ, молодец!', font=(
+                'Times new Roman', 13))
+        answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+        ans = 1
+        Counter[question_index] = ans
+    else:
+        answer = tk.Label(
+            frame_2, text='Лучше подумай ещё раз.', font=(
+                'Times new Roman', 13))
+        answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+        ans = 0
+    Counter[question_index] = ans
+    return ans
 
 
 def many_answers():
+    """Returns question with many answers
+    """
     def answer_check():
+        """Returns the correctness of the response
+
+        :returns: ans
+        :rtype: int
+        """
         count_of_answer = answer1.get() + answer2.get() + answer3.get() + \
             answer4.get() + answer5.get()
         if count_of_answer == All_question[question_index][-1]:
             answer = tk.Label(
                 frame_2, text='Это правильный ответ, молодец!', font=(
                     'Times new Roman', 13))
-            answer.place(x=769, y=594, width=384, height=54)  # 384
-            Counter[question_index] = 1
+            answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+            ans = 1
+            Counter[question_index] = ans
         else:
             answer = tk.Label(
                 frame_2, text='Лучше подумай ещё раз.', font=(
                     'Times new Roman', 13))
-            answer.place(x=769, y=594, width=384, height=54)
-            Counter[question_index] = 0
+            answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+            ans = 0
+            Counter[question_index] = ans
+        return ans
 
     answer1 = tk.IntVar()
     answer2 = tk.IntVar()
@@ -455,7 +519,7 @@ def many_answers():
         frame_2, text=str(
             All_question[question_index][0]), font=(
             'Times new Roman', 15))
-    Title.place(x=481, y=216, widt=960, height=54)
+    Title.place(relx=0.25, y=216, relwidth=0.5, height=54)
     variant1 = tk.Checkbutton(
         frame_2,
         text=All_question[question_index][1],
@@ -496,19 +560,53 @@ def many_answers():
             13),
         variable=answer5,
         onvalue=All_question[question_index][10])
-    variant1.place(x=481, y=270, width=960, height=54)
-    variant2.place(x=481, y=324, width=960, height=54)
-    variant3.place(x=481, y=378, width=960, height=54)
-    variant4.place(x=481, y=432, width=960, height=54)
-    variant5.place(x=481, y=486, width=960, height=54)
+    variant1.place(relx=0.25, y=270, relwidth=0.5, height=54)
+    variant2.place(relx=0.25, y=324, relwidth=0.5, height=54)
+    variant3.place(relx=0.25, y=378, relwidth=0.5, height=54)
+    variant4.place(relx=0.25, y=432, relwidth=0.5, height=54)
+    variant5.place(relx=0.25, y=486, relwidth=0.5, height=54)
     get_answer = tk.Button(
         frame_2, text='Проверить ответ', font=(
             'Times new Roman', 13), command=answer_check)
-    get_answer.place(x=769, y=540, width=384, height=54)
+    get_answer.place(relx=0.4, y=540, relwidth=0.2, height=54)
+
+
+def many_answer_check(answer_var, question_index):
+    """Returns the correctness of the response
+
+    :param answer_var: sinonimous to count_of_answer in answer.check()
+    :type answer_var: int
+    :param question_index: index of question
+    :type question_index: int
+    :returns: ans
+    :rtype: int
+    """
+    if answer_var == All_question[question_index][-1]:
+        ans = 1
+        answer = tk.Label(
+            frame_2, text='Это правильный ответ, молодец!', font=(
+                'Times new Roman', 13))
+        answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+        Counter[question_index] = ans
+    else:
+        answer = tk.Label(
+            frame_2, text='Лучше подумай ещё раз.', font=(
+                'Times new Roman', 13))
+        answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+        ans = 0
+        Counter[question_index] = ans
+    return ans
 
 
 def comparison_answer():
+    """Returns question with comparison
+    """
     def comparison_answer_check():
+        """Returns the correctness of the response
+
+        :returns: ans
+        :rtype: int
+        """
         if combo1.get() == right_answer1:
             if combo2.get() == right_answer2:
                 if combo3.get() == right_answer3:
@@ -516,32 +614,38 @@ def comparison_answer():
                         answer = tk.Label(
                             frame_2, text='Это правильный ответ, молодец!', font=(
                                 'Times new Roman', 13))
-                        answer.place(x=769, y=594, width=384, height=54)
-                        Counter[question_index] = 1
+                        answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+                        ans = 1
+                        Counter[question_index] = ans
                     else:
                         answer = tk.Label(
                             frame_2, text='Лучше подумай ещё раз.', font=(
                                 'Times new Roman', 13))
-                        answer.place(x=769, y=594, width=384, height=54)
-                        Counter[question_index] = 0
+                        answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+                        ans = 0
+                        Counter[question_index] = ans
                 else:
                     answer = tk.Label(
                         frame_2, text='Лучше подумай ещё раз.', font=(
                             'Times new Roman', 13))
-                    answer.place(x=769, y=594, width=384, height=54)
-                    Counter[question_index] = 0
+                    answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+                    ans = 0
+                    Counter[question_index] = ans
             else:
                 answer = tk.Label(
                     frame_2, text='Лучше подумай ещё раз.', font=(
                         'Times new Roman', 13))
-                answer.place(x=769, y=594, width=384, height=54)
-                Counter[question_index] = 0
+                answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+                ans = 0
+                Counter[question_index] = ans
         else:
             answer = tk.Label(
                 frame_2, text='Лучше подумай ещё раз.', font=(
                     'Times new Roman', 13))
-            answer.place(x=769, y=594, width=384, height=54)
-            Counter[question_index] = 0
+            answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+            ans = 0
+            Counter[question_index] = ans
+        return ans
 
     variants = (
         All_question[question_index][1],
@@ -557,22 +661,60 @@ def comparison_answer():
             15))
     Title.place(x=481, y=216, widt=960, height=54)
 
-    combo1 = ttk.Combobox(frame_2, values=variants)
+    combo1 = ttk.Combobox(frame_2, state="readonly", values=variants)
     right_answer1 = All_question[question_index][5]
-    combo1.place(x=481, y=270, width=960, height=54)
-    combo2 = ttk.Combobox(frame_2, values=variants)
+    combo1.place(relx=0.25, y=270, relwidth=0.5, height=54)
+    combo2 = ttk.Combobox(frame_2, state="readonly", values=variants)
     right_answer2 = All_question[question_index][6]
-    combo2.place(x=481, y=324, width=960, height=54)
-    combo3 = ttk.Combobox(frame_2, values=variants)
+    combo2.place(relx=0.25, y=324, relwidth=0.5, height=54)
+    combo3 = ttk.Combobox(frame_2, state="readonly", values=variants)
     right_answer3 = All_question[question_index][7]
-    combo3.place(x=481, y=378, width=960, height=54)
-    combo4 = ttk.Combobox(frame_2, values=variants)
+    combo3.place(relx=0.25, y=378, relwidth=0.5, height=54)
+    combo4 = ttk.Combobox(frame_2, state="readonly", values=variants)
     right_answer4 = All_question[question_index][8]
-    combo4.place(x=481, y=432, width=960, height=54)
+    combo4.place(relx=0.25, y=432, relwidth=0.5, height=54)
 
     get_answer = tk.Button(frame_2, text='Проверить ответ', font=(
         'Times new Roman', 13), command=comparison_answer_check)
-    get_answer.place(x=769, y=486, width=384, height=108)
+    get_answer.place(relx=0.4, y=486, relwidth=0.2, height=108)
+
+
+def comp_answer_check(answer_var, question_index):
+    """Returns the correctness of the response
+
+    :param answer_var: sinonimous to list of combos.get() in comparison_answer_check()
+    :type answer_var: list
+    :param question_index: index of question
+    :type question_index: int
+    :returns: ans
+    :rtype: int
+    """
+    right_answer1 = All_question[question_index][5]
+    right_answer2 = All_question[question_index][6]
+    right_answer3 = All_question[question_index][7]
+    right_answer4 = All_question[question_index][8]
+    if answer_var == [
+            right_answer1,
+            right_answer2,
+            right_answer3,
+            right_answer4]:
+        answer = tk.Label(
+            frame_2,
+            text='Это правильный ответ, молодец!',
+            font=(
+                'Times new Roman',
+                13))
+        answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+        ans = 1
+        Counter[question_index] = ans
+    else:
+        answer = tk.Label(
+            frame_2, text='Лучше подумай ещё раз.', font=(
+                'Times new Roman', 13))
+        answer.place(relx=0.4, y=594, relwidth=0.2, height=54)
+        ans = 0
+        Counter[question_index] = ans
+    return ans
 
 
 All_right_answer = 0
@@ -581,6 +723,8 @@ not_made = 17
 
 
 def show_result():
+    """Returns result
+    """
     All_right_answer = 0
     All_false_answer = 0
     not_made = 17
@@ -595,7 +739,7 @@ def show_result():
         result = tk.Label(
             frame_2, text='Вы ещё не ответили ни на один вопрос', font=(
                 'Times new Roman', 15))  # 756
-        result.place(x=481, y=756, width=960)
+        result.place(relx=0.25, y=756, relwidth=0.5)
     else:
         if All_right_answer == 0:
             result = tk.Label(
@@ -604,7 +748,7 @@ def show_result():
                 font=(
                     'Times new Roman',
                     13))
-            result.place(x=481, y=756, width=960)
+            result.place(relx=0.25, y=756, relwidth=0.5)
         elif All_false_answer == 0:
             result = tk.Label(
                 frame_2,
@@ -612,7 +756,7 @@ def show_result():
                 font=(
                     'Times new Roman',
                     13))
-            result.place(x=481, y=756, width=960)
+            result.place(relx=0.25, y=756, relwidth=0.5)
         else:
             result = tk.Label(
                 frame_2,
@@ -620,12 +764,15 @@ def show_result():
                 font=(
                     'Times new Roman',
                     13))
-            result.place(x=481, y=756, width=960)
+            result.place(relx=0.25, y=756, relwidth=0.5)
 
 
 def question_choise():
+    global question_index
+    """Returns question
+    """
+
     if question_combo.get() == 'Вопрос №1':
-        global question_index
         question_index = 0
         only_one_answer()
 
@@ -692,6 +839,7 @@ def question_choise():
     elif question_combo.get() == 'Вопрос №17':
         question_index = 16
         only_one_answer()
+    return question_index
 
 
 number_of_question = (
@@ -713,8 +861,11 @@ number_of_question = (
     'Вопрос №16',
     'Вопрос №17')
 
-question_combo = ttk.Combobox(frame_2, values=number_of_question)
-question_combo.place(x=769, y=54, width=384)
+question_combo = ttk.Combobox(
+    frame_2,
+    state="readonly",
+    values=number_of_question)
+question_combo.place(relx=0.4, y=54, relwidth=0.2)
 
 Title = tk.Label(
     frame_2,
@@ -722,7 +873,7 @@ Title = tk.Label(
     font=(
         'Times new Roman',
         15))
-Title.place(x=481, width=960)
+Title.place(relx=0.25, relwidth=0.5)
 
 get_question = tk.Button(
     frame_2,
@@ -731,12 +882,12 @@ get_question = tk.Button(
         'Times new Roman',
         13),
     command=question_choise)
-get_question.place(x=769, y=108, width=384)
+get_question.place(relx=0.4, y=108, relwidth=0.2)
 
 get_last_answer = tk.Button(
     frame_2, text='Посмотреть статистику по вопросам', font=(
         'Times new Roman', 13), command=show_result)
-get_last_answer.place(x=769, y=702, width=384)
+get_last_answer.place(relx=0.4, y=702, relwidth=0.2)
 
 
 frame_0.tkraise()
