@@ -26,7 +26,7 @@ canvas.create_text(
     font=(
         "Times new Roman",
          40))
-Button(frame_0, text="К карте", font=("Times new Roman", 20), bg="white", bd=0,
+Button(frame_0, text="К карте", font=("Times new Roman", 20), bg="white",
        activebackground="white", borderwidth=1.5, relief="solid",
        command=lambda: frame_1.tkraise()).place(x=1200, y=700)
 Button(
@@ -36,7 +36,6 @@ Button(
         "Times new Roman",
         20),
     bg="white",
-    bd=0,
     activebackground="white",
     borderwidth=1.5,
     relief="solid",
@@ -144,10 +143,14 @@ def click_2(event):
 
 
 class WrongCoordinatsExceptionX(Exception):
+    """Класс обработки вылета x-координаты города за границы холста
+    """
     ...
 
 
 class WrongCoordinatsExceptionY(Exception):
+    """Класс обработки вылета y-координаты города за границы холста
+    """
     ...
 
 
