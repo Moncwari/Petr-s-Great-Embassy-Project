@@ -26,7 +26,7 @@ canvas.create_text(
     font=(
         "Times new Roman",
          40))
-Button(frame_0, text="К карте", font=("Times new Roman", 20), bg="white", bd=0,
+Button(frame_0, text="К карте", font=("Times new Roman", 20), bg="white",
        activebackground="white", borderwidth=1.5, relief="solid",
        command=lambda: frame_1.tkraise()).place(x=1200, y=700)
 Button(
@@ -36,7 +36,6 @@ Button(
         "Times new Roman",
         20),
     bg="white",
-    bd=0,
     activebackground="white",
     borderwidth=1.5,
     relief="solid",
@@ -61,6 +60,9 @@ def map_background():
     """
     canvas.create_image(0, 0, anchor="nw", image=python_image_1)
     canvas.pack(fill="both")
+
+def show_info():
+    return messagebox.showinfo(title=", ".join(text), message=self.story)
 
 
 def animation_fwd(coords, obj, line):
@@ -120,11 +122,13 @@ def click_1(event):
     Вызывет функцию animation_fwd продвижения кареты на 1 стрелку вперёд
     """
     global arrows
+    global cities
     global ball
     global line
     if line < len(arrows) - 1:
         line += 1
         animation_fwd(arrows, ball, line)
+        messagebox.showinfo(title=", ".join(cities[line+1][4:]), message=cities[line+1][3])
 
 
 def click_2(event):
@@ -132,11 +136,13 @@ def click_2(event):
     Вызывет функцию animation_bwd продвижения кареты на 1 стрелку назад
     """
     global arrows
+    global cities
     global ball
     global line
     if line > -1:
         animation_bwd(arrows, ball, line)
         line -= 1
+        messagebox.showinfo(title=", ".join(cities[line+1][4:]), message=cities[line+1][3])
 
 
 class WrongCoordinatsExceptionX(Exception):
