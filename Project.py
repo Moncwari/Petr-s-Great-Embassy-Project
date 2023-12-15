@@ -26,7 +26,7 @@ canvas.create_text(
     font=(
         "Times new Roman",
          40))
-Button(frame_0, text="К карте", font=("Times new Roman", 20), bg="white",
+Button(frame_0, text="К карте", font=("Times new Roman", 20), bg="white", bd=0,
        activebackground="white", borderwidth=1.5, relief="solid",
        command=lambda: frame_1.tkraise()).place(x=1200, y=700)
 Button(
@@ -36,6 +36,7 @@ Button(
         "Times new Roman",
         20),
     bg="white",
+    bd=0,
     activebackground="white",
     borderwidth=1.5,
     relief="solid",
@@ -60,9 +61,6 @@ def map_background():
     """
     canvas.create_image(0, 0, anchor="nw", image=python_image_1)
     canvas.pack(fill="both")
-
-def show_info():
-    return messagebox.showinfo(title=", ".join(text), message=self.story)
 
 
 def animation_fwd(coords, obj, line):
@@ -120,9 +118,9 @@ def animation_bwd(coords, obj, line):
 def click_1(event):
     """Функция клика на кнопку "вперёд"
     Вызывет функцию animation_fwd продвижения кареты на 1 стрелку вперёд
+    И автоматически выводит информацию о городе
     """
     global arrows
-    global cities
     global ball
     global line
     if line < len(arrows) - 1:
@@ -134,9 +132,9 @@ def click_1(event):
 def click_2(event):
     """Функция клика на кнопку "назад"
     Вызывет функцию animation_bwd продвижения кареты на 1 стрелку назад
+    И автоматически выводит информацию о городе
     """
     global arrows
-    global cities
     global ball
     global line
     if line > -1:
