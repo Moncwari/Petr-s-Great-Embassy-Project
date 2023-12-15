@@ -775,10 +775,10 @@ def show_result():
 
 
 def question_choise():
-    global question_index
     """Returns question
     """
-
+    global question_index
+    
     if question_combo.get() == 'Вопрос №1':
         question_index = 0
         only_one_answer()
