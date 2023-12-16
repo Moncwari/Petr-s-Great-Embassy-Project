@@ -122,10 +122,13 @@ def click_1(event):
     global arrows
     global ball
     global line
+    global selected_mode
     if line < len(arrows) - 1:
         line += 1
         animation_fwd(arrows, ball, line)
-        messagebox.showinfo(title=", ".join(cities[line+1][4:]), message=cities[line+1][3])
+        if selected_mode.get() == "On":
+            messagebox.showinfo(title=", ".join(
+                cities[line + 1][4:]), message=cities[line + 1][3])
 
 
 def click_2(event):
@@ -136,10 +139,13 @@ def click_2(event):
     global arrows
     global ball
     global line
+    global selected_mode
     if line > -1:
         animation_bwd(arrows, ball, line)
         line -= 1
-        messagebox.showinfo(title=", ".join(cities[line+1][4:]), message=cities[line+1][3])
+        if selected_mode.get() == "On":
+            messagebox.showinfo(title=", ".join(
+                cities[line + 1][4:]), message=cities[line + 1][3])
 
 
 class WrongCoordinatsExceptionX(Exception):
@@ -281,6 +287,18 @@ ball = canvas.create_oval(
     arrows[0][1] + 7,
     fill="#d6d00f")
 line = -1
+
+
+enabled_on = "On"
+enabled_off = "Off"
+selected_mode = StringVar(value=enabled_on)
+header = ttk.Label(frame_1, text="Автоматический вызов справок", font=("Times new Roman", 15), background="white",
+                   borderwidth=1.5, relief="solid")
+header.place(anchor="nw", x=700, y=750, width=350, height=30)
+checkbutton = ttk.Checkbutton(frame_1, textvariable=selected_mode, variable=selected_mode,
+                              offvalue=enabled_off, onvalue=enabled_on)
+checkbutton.place(anchor="nw", x=1000, y=754)
+
 
 btn_fwd = Button(frame_1, text="Вперёд", font=("Times new Roman", 15),
                  bg="#2fba2d", bd=0, activebackground="#5efc5b")
@@ -778,7 +796,7 @@ def question_choise():
     """Returns question
     """
     global question_index
-    
+
     if question_combo.get() == 'Вопрос №1':
         question_index = 0
         only_one_answer()
