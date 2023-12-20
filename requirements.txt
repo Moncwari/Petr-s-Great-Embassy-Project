@@ -1,2 +1,3 @@
-tkinter
-pytest
+python==3.11.4
+tkinter==8.6
+pytest==7.4.2
